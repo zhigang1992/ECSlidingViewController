@@ -10,5 +10,6 @@
 #import "ECSlidingViewController.h"
 
 @interface MenuViewController : UIViewController <UITableViewDataSource, UITabBarControllerDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

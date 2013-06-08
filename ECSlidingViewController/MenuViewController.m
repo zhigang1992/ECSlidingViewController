@@ -10,6 +10,7 @@
 
 @interface MenuViewController()
 @property (nonatomic, strong) NSArray *menuItems;
+@property (nonatomic) CGRect originalViewRect;
 @end
 
 @implementation MenuViewController
@@ -26,6 +27,14 @@
   
   [self.slidingViewController setAnchorRightRevealAmount:280.0f];
   self.slidingViewController.underLeftWidthLayout = ECFullWidth;
+  self.slidingViewController.continuousBlock = ^(float x){
+      self.tableView.frame = CGRectInset(self.originalViewRect, (280.f-x) / 10, (280.f-x) / 10);
+  };
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.originalViewRect = self.view.frame;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
@@ -60,4 +69,8 @@
   }];
 }
 
+- (void)viewDidUnload {
+    [self setTableView:nil];
+    [super viewDidUnload];
+}
 @end

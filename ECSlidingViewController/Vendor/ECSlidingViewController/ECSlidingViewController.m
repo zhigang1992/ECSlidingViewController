@@ -248,9 +248,6 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 {
   CGPoint currentTouchPoint     = [recognizer locationInView:self.view];
   CGFloat currentTouchPositionX = currentTouchPoint.x;
-    
-  if(self.continuousBlock)
-    self.continuousBlock(currentTouchPositionX);
   
   if (recognizer.state == UIGestureRecognizerStateBegan) {
     self.initialTouchPositionX = currentTouchPositionX;
@@ -259,6 +256,10 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
     CGFloat panAmount = self.initialTouchPositionX - currentTouchPositionX;
     CGFloat newCenterPosition = self.initialHoizontalCenter - panAmount;
     
+      if (self.continuousBlock) {
+          self.continuousBlock(fabs(newCenterPosition - self.resettedCenter));
+      }
+      
     if ((newCenterPosition < self.resettedCenter && (self.anchorLeftTopViewCenter == NSNotFound || self.underRightViewController == nil)) ||
         (newCenterPosition > self.resettedCenter && (self.anchorRightTopViewCenter == NSNotFound || self.underLeftViewController == nil))) {
       newCenterPosition = self.resettedCenter;
@@ -312,6 +313,9 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
       animations();
     }
     [self updateTopViewHorizontalCenter:newCenter];
+      if (self.continuousBlock) {
+          self.continuousBlock(fabs(newCenter - self.resettedCenter));
+      }
   } completion:^(BOOL finished){
     if (_resetStrategy & ECPanning) {
       self.panGesture.enabled = YES;
@@ -382,6 +386,9 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
       animations();
     }
     [self updateTopViewHorizontalCenter:self.resettedCenter];
+      if (self.continuousBlock) {
+          self.continuousBlock(0.f);
+      }
   } completion:^(BOOL finished) {
     if (complete) {
       complete();
@@ -447,6 +454,7 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 
 - (void)topViewHorizontalCenterDidChange:(CGFloat)newHorizontalCenter
 {
+    NSLog(@"%g", newHorizontalCenter);
   if (newHorizontalCenter == self.resettedCenter) {
     [self topDidReset];
   }

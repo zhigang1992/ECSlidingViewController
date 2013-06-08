@@ -27,8 +27,9 @@
   
   [self.slidingViewController setAnchorRightRevealAmount:280.0f];
   self.slidingViewController.underLeftWidthLayout = ECFullWidth;
+  __weak typeof(self) weakSelf = self;
   self.slidingViewController.continuousBlock = ^(float x){
-      self.tableView.frame = CGRectInset(self.originalViewRect, (280.f-x) / 10, (280.f-x) / 10);
+      weakSelf.tableView.frame = CGRectInset(self.originalViewRect, (280.f-x) / 10, (280.f-x) / 10);
   };
 }
 

@@ -256,9 +256,9 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
     CGFloat panAmount = self.initialTouchPositionX - currentTouchPositionX;
     CGFloat newCenterPosition = self.initialHoizontalCenter - panAmount;
     
-      if (self.continuousBlock) {
-          self.continuousBlock(fabs(newCenterPosition - self.resettedCenter));
-      }
+    if (self.continuousBlock) {
+        self.continuousBlock(fabs(newCenterPosition - self.resettedCenter));
+    }
       
     if ((newCenterPosition < self.resettedCenter && (self.anchorLeftTopViewCenter == NSNotFound || self.underRightViewController == nil)) ||
         (newCenterPosition > self.resettedCenter && (self.anchorRightTopViewCenter == NSNotFound || self.underLeftViewController == nil))) {
@@ -313,9 +313,9 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
       animations();
     }
     [self updateTopViewHorizontalCenter:newCenter];
-      if (self.continuousBlock) {
-          self.continuousBlock(fabs(newCenter - self.resettedCenter));
-      }
+    if (self.continuousBlock) {
+        self.continuousBlock(fabs(newCenter - self.resettedCenter));
+    }
   } completion:^(BOOL finished){
     if (_resetStrategy & ECPanning) {
       self.panGesture.enabled = YES;
@@ -454,7 +454,6 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 
 - (void)topViewHorizontalCenterDidChange:(CGFloat)newHorizontalCenter
 {
-    NSLog(@"%g", newHorizontalCenter);
   if (newHorizontalCenter == self.resettedCenter) {
     [self topDidReset];
   }
